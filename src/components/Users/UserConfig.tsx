@@ -38,28 +38,63 @@ const UserConfig: React.FC<UserConfigProps> = ({ clientId, onClose }) => {
     if (!config) return "";
 
     return `@echo off
-echo Data Sync Client Starter
-echo ------------------------------------------
-echo Client ID: ${config.clientId}
-echo Database: ${config.dbName}
-echo ------------------------------------------
+setlocal enabledelayedexpansion
+
+echo ===============================================
+echo     DATABASE SYNCHRONIZATION CLIENT TOOL     
+echo ===============================================
+echo This tool synchronizes data between your local
+echo SQL Anywhere database and the central server.
+echo -----------------------------------------------
 echo.
 
+:: Set the client ID
 set CLIENT_ID=${config.clientId}
-set ACCESS_TOKEN=${config.accessToken}
-set API_URL=${config.apiUrl}
 
-echo Sending data to sync server...
+:: Get directory where the bat file is located
+set "SCRIPT_DIR=%~dp0"
+cd /d "%SCRIPT_DIR%"
+
+:: Check if we're using the packaged executable or Node.js script
+if exist "%SCRIPT_DIR%\\clientside-synctool.exe" (
+    echo Running packaged sync tool...
+    "%SCRIPT_DIR%\\clientside-synctool.exe" --clientId=%CLIENT_ID%
+) else if exist "%SCRIPT_DIR%\\src\\sync-client.js" (
+    echo Checking for Node.js...
+    where node >nul 2>nul
+    if !ERRORLEVEL! NEQ 0 (
+        echo ERROR: Node.js is not installed or not in PATH
+        echo Please install Node.js from https://nodejs.org/
+        pause
+        exit /b 1
+    )
+    
+    echo Running Node.js sync tool...
+    node "%SCRIPT_DIR%\\src\\sync-client.js" --clientId=%CLIENT_ID%
+) else (
+    echo ERROR: Could not find sync-client executable or script.
+    echo Current directory: %SCRIPT_DIR%
+    echo.
+    echo Please make sure:
+    echo 1. This bat file is in the same directory as sync-client.exe, or
+    echo 2. There is a src\\sync-client.js file in this directory
+    echo.
+    echo If you're using this batch file separately from the sync tool,
+    echo please make sure you've downloaded and extracted the sync client tool.
+    pause
+    exit /b 1
+)
+
+if %ERRORLEVEL% NEQ 0 (
+    echo.
+    echo Sync failed with error code %ERRORLEVEL%
+    pause
+    exit /b %ERRORLEVEL%
+)
+
 echo.
-
-curl -X POST %API_URL%/api/sync/data ^
-  -H "Content-Type: application/json" ^
-  -d "{\\"clientId\\": \\"%CLIENT_ID%\\", \\"accessToken\\": \\"%ACCESS_TOKEN%\\", \\"data\\": []}"
-
-echo.
-echo Process completed.
-echo Press any key to exit...
-pause > nul`;
+echo Sync completed successfully!
+pause`;
   };
 
   const handleDownloadConfig = () => {
@@ -139,7 +174,9 @@ pause > nul`;
               </div>
               <div>
                 <p className="text-sm text-gray-500">Access Token</p>
-                <p className="font-mono break-all">{config.accessToken}</p>
+                <p className="font-mono break-all">
+                  {config.accessToken.substring(0, 10)}...
+                </p>
               </div>
             </div>
           </div>
@@ -179,6 +216,29 @@ pause > nul`;
               </pre>
             </div>
           )}
+
+          <div className="mt-6 p-4 bg-yellow-50 border border-yellow-300 rounded-md">
+            <h3 className="font-bold text-yellow-800 mb-2">
+              Important Instructions
+            </h3>
+            <ol className="list-decimal pl-5 space-y-2 text-yellow-800">
+              <li>
+                Download both the <strong>Config JSON</strong> and{" "}
+                <strong>Batch File</strong> above.
+              </li>
+              <li>
+                Place both files in the same directory as your sync client tool
+                (where sync-client.exe or src/sync-client.js is located).
+              </li>
+              <li>
+                Double-click the batch file to run the synchronization process.
+              </li>
+              <li>
+                If you receive any errors, please check that Node.js is
+                installed or contact support.
+              </li>
+            </ol>
+          </div>
         </div>
       )}
     </div>
