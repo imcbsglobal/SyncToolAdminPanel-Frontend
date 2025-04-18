@@ -14,6 +14,11 @@ const UserForm: React.FC<UserFormProps> = ({ user, onSubmit, onCancel }) => {
     dbName: user?.db_name || "",
     dbUser: user?.db_user || "",
     dbPassword: "",
+    clientName: user?.client_name || "",
+    address: user?.address || "",
+    phoneNumber: user?.phone_number || "",
+    username: user?.username || "",
+    password: user?.password || "",
   });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -103,65 +108,181 @@ const UserForm: React.FC<UserFormProps> = ({ user, onSubmit, onCancel }) => {
             </div>
           )}
 
-          <div className="mb-4">
-            <label
-              className="block text-gray-700 text-sm font-bold mb-2"
-              htmlFor="dbName"
-            >
-              Database Name
-            </label>
-            <input
-              id="dbName"
-              name="dbName"
-              type="text"
-              required
-              value={formData.dbName}
-              onChange={handleChange}
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-              placeholder="Enter database name"
-            />
+          {/* Client Info Section */}
+          <div className="mb-6 border-b pb-4">
+            <h3 className="text-lg font-semibold mb-3 text-gray-700">
+              Client Information
+            </h3>
+
+            <div className="mb-4">
+              <label
+                className="block text-gray-700 text-sm font-bold mb-2"
+                htmlFor="clientName"
+              >
+                Client Name
+              </label>
+              <input
+                id="clientName"
+                name="clientName"
+                type="text"
+                required
+                value={formData.clientName}
+                onChange={handleChange}
+                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                placeholder="Enter client name"
+              />
+            </div>
+
+            <div className="mb-4">
+              <label
+                className="block text-gray-700 text-sm font-bold mb-2"
+                htmlFor="address"
+              >
+                Address
+              </label>
+              <input
+                id="address"
+                name="address"
+                type="text"
+                required
+                value={formData.address}
+                onChange={handleChange}
+                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                placeholder="Enter address"
+              />
+            </div>
+
+            <div className="mb-4">
+              <label
+                className="block text-gray-700 text-sm font-bold mb-2"
+                htmlFor="phoneNumber"
+              >
+                Phone Number
+              </label>
+              <input
+                id="phoneNumber"
+                name="phoneNumber"
+                type="text"
+                required
+                value={formData.phoneNumber}
+                onChange={handleChange}
+                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                placeholder="Enter phone number"
+              />
+            </div>
           </div>
 
-          <div className="mb-4">
-            <label
-              className="block text-gray-700 text-sm font-bold mb-2"
-              htmlFor="dbUser"
-            >
-              Database User
-            </label>
-            <input
-              id="dbUser"
-              name="dbUser"
-              type="text"
-              required
-              value={formData.dbUser}
-              onChange={handleChange}
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-              placeholder="Enter database username"
-            />
+          {/* Database Section */}
+          <div className="mb-6 border-b pb-4">
+            <h3 className="text-lg font-semibold mb-3 text-gray-700">
+              Database Information
+            </h3>
+
+            <div className="mb-4">
+              <label
+                className="block text-gray-700 text-sm font-bold mb-2"
+                htmlFor="dbName"
+              >
+                Database Name
+              </label>
+              <input
+                id="dbName"
+                name="dbName"
+                type="text"
+                required
+                value={formData.dbName}
+                onChange={handleChange}
+                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                placeholder="Enter database name"
+              />
+            </div>
+
+            <div className="mb-4">
+              <label
+                className="block text-gray-700 text-sm font-bold mb-2"
+                htmlFor="dbUser"
+              >
+                Database User
+              </label>
+              <input
+                id="dbUser"
+                name="dbUser"
+                type="text"
+                required
+                value={formData.dbUser}
+                onChange={handleChange}
+                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                placeholder="Enter database username"
+              />
+            </div>
+
+            <div className="mb-4">
+              <label
+                className="block text-gray-700 text-sm font-bold mb-2"
+                htmlFor="dbPassword"
+              >
+                Database Password
+              </label>
+              <input
+                id="dbPassword"
+                name="dbPassword"
+                type="password"
+                required
+                value={formData.dbPassword}
+                onChange={handleChange}
+                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                placeholder={
+                  user
+                    ? "Enter new password (or leave unchanged)"
+                    : "Enter database password"
+                }
+              />
+            </div>
           </div>
 
-          <div className="mb-6">
-            <label
-              className="block text-gray-700 text-sm font-bold mb-2"
-              htmlFor="dbPassword"
-            >
-              Database Password
-            </label>
-            <input
-              id="dbPassword"
-              name="dbPassword"
-              type="password"
-              required
-              value={formData.dbPassword}
-              onChange={handleChange}
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-              placeholder={
-                user
-                  ? "Enter new password (or leave unchanged)"
-                  : "Enter database password"
-              }
-            />
+          {/* Login Section */}
+          <div className="mb-4">
+            <h3 className="text-lg font-semibold mb-3 text-gray-700">
+              Login Information
+            </h3>
+
+            <div className="mb-4">
+              <label
+                className="block text-gray-700 text-sm font-bold mb-2"
+                htmlFor="username"
+              >
+                Username
+              </label>
+              <input
+                id="username"
+                name="username"
+                type="text"
+                required
+                value={formData.username}
+                onChange={handleChange}
+                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                placeholder="Enter username"
+              />
+            </div>
+
+            <div className="mb-4">
+              <label
+                className="block text-gray-700 text-sm font-bold mb-2"
+                htmlFor="password"
+              >
+                Password
+              </label>
+              <input
+                id="password"
+                name="password"
+                type="password"
+                required
+                value={formData.password}
+                onChange={handleChange}
+                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                placeholder="Enter password"
+              />
+            </div>
           </div>
         </div>
 
