@@ -1,7 +1,7 @@
 // src/services/api.ts
 import { User, UserFormData, UserConfig, SyncLog } from "../interfaces";
 
-const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5004";
+const API_URL = import.meta.env.VITE_API_URL || "https://synctool.imcbs.com";
 
 export const api = {
   // Initialize database
