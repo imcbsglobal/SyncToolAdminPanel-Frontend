@@ -44,5 +44,6 @@ export interface ApiResponse<T> {
   success: boolean;
   error?: string;
   message?: string;
+  data?: T;
   [key: string]: any;
 }
