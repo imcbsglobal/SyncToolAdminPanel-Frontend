@@ -5,12 +5,91 @@ import {
   Routes,
   Route,
   Navigate,
+  useLocation,
 } from "react-router-dom";
 import MainLayout from "./components/Layout/MainLayout";
 import Dashboard from "./components/Dashboard/Dashboard";
 import UserList from "./components/Users/UserList";
 import LogList from "./components/Logs/LogList";
+import LoginPage from "./components/auth/LoginPage";
 import { api } from "./services/api";
+import { AuthProvider, useAuth } from "./context/AuthContext";
+import ProtectedRoute from "./components/auth/ProtectedRoute";
+
+// Add this debug component to help diagnose routing/auth issues
+const AuthDebugger: React.FC = () => {
+  const { isAuthenticated, isLoading } = useAuth();
+  const location = useLocation();
+
+  useEffect(() => {
+    console.log("Current path:", location.pathname);
+    console.log("Auth state:", { isAuthenticated, isLoading });
+  }, [location.pathname, isAuthenticated, isLoading]);
+
+  return null; // This component doesn't render anything
+};
+
+const AppRoutes: React.FC = () => {
+  // This component wraps routes and has access to AuthContext
+  const { isAuthenticated, isLoading } = useAuth();
+
+  // Debug redirection events
+  useEffect(() => {
+    console.log("Auth state updated in AppRoutes:", {
+      isAuthenticated,
+      isLoading,
+    });
+  }, [isAuthenticated, isLoading]);
+
+  return (
+    <>
+      <AuthDebugger />
+      <Routes>
+        {/* Public route - redirect to / if already authenticated */}
+        <Route
+          path="/login"
+          element={
+            isAuthenticated ? <Navigate to="/" replace /> : <LoginPage />
+          }
+        />
+
+        {/* Protected routes wrapped in MainLayout */}
+        <Route element={<ProtectedRoute />}>
+          <Route
+            path="/"
+            element={
+              <MainLayout>
+                <Dashboard />
+              </MainLayout>
+            }
+          />
+          <Route
+            path="/users"
+            element={
+              <MainLayout>
+                <UserList />
+              </MainLayout>
+            }
+          />
+          <Route
+            path="/logs"
+            element={
+              <MainLayout>
+                <LogList />
+              </MainLayout>
+            }
+          />
+        </Route>
+
+        {/* Redirect unmatched routes */}
+        <Route
+          path="*"
+          element={<Navigate to={isAuthenticated ? "/" : "/login"} />}
+        />
+      </Routes>
+    </>
+  );
+};
 
 const App: React.FC = () => {
   const [dbInitialized, setDbInitialized] = useState<boolean | null>(null);
@@ -20,6 +99,7 @@ const App: React.FC = () => {
     const checkDatabase = async () => {
       try {
         const initialized = await api.initializeDatabase();
+        console.log("Database initialization status:", initialized);
         setDbInitialized(initialized);
       } catch (error) {
         console.error("Error checking database:", error);
@@ -74,16 +154,11 @@ const App: React.FC = () => {
   }
 
   return (
-    <Router>
-      <MainLayout>
-        <Routes>
-          <Route path="/" element={<Dashboard />} />
-          <Route path="/users" element={<UserList />} />
-          <Route path="/logs" element={<LogList />} />
-          <Route path="*" element={<Navigate to="/" />} />
-        </Routes>
-      </MainLayout>
-    </Router>
+    <AuthProvider>
+      <Router>
+        <AppRoutes />
+      </Router>
+    </AuthProvider>
   );
 };
 
