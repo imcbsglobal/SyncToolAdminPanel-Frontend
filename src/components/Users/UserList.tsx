@@ -92,12 +92,12 @@ const UserList: React.FC = () => {
   }
 
   return (
-    <div className="bg-white rounded-lg shadow-md p-6">
+    <div className="bg-white rounded-lg shadow-md p-6 overflow-x-hidden">
       <div className="flex justify-between items-center mb-6">
         <h2 className="text-2xl font-bold text-gray-800">User Management</h2>
         <button
           onClick={handleAddUser}
-          className="bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700 transition-colors"
+          className="bg-[#f90] font-medium text-white px-4 py-2 rounded-md hover:bg-indigo-700 transition-colors"
         >
           Add New User
         </button>
@@ -114,8 +114,8 @@ const UserList: React.FC = () => {
           No users found. Add your first user to get started.
         </div>
       ) : (
-        <div className="overflow-x-auto">
-          <table className="min-w-full divide-y divide-gray-200">
+        <div className="overflow-x-auto w-full">
+          <table className="min-w-full divide-y overflow-x-auto divide-gray-200">
             <thead className="bg-gray-50">
               <tr>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">

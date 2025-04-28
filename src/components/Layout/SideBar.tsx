@@ -12,9 +12,9 @@ const Sidebar: React.FC = () => {
   ];
 
   return (
-    <aside className="bg-gray-800 text-white w-64 min-h-screen p-4">
+    <aside className="bg-[#fff] text-white w-64 min-h-screen p-4">
       <div className="mb-8">
-        <h2 className="text-xl font-bold mb-6 text-center">Admin Console</h2>
+        <h2 className="text-xl font-bold mb-6 text-center text-[#000]">Admin Console</h2>
       </div>
 
       <nav>
@@ -23,10 +23,10 @@ const Sidebar: React.FC = () => {
             <li key={item.path} className="mb-2">
               <Link
                 to={item.path}
-                className={`flex items-center p-3 rounded-lg transition-colors ${
+                className={`flex items-center p-3 rounded-lg  transition-colors ${
                   location.pathname === item.path
-                    ? "bg-indigo-600 text-white"
-                    : "hover:bg-gray-700"
+                    ? "bg-[#FD6A03] text-[#fff]"
+                    : "hover:bg-[#f90] text-[#000] hover:text-[#fff]"
                 }`}
               >
                 <span className="material-icons mr-3">{item.icon}</span>

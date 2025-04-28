@@ -44,12 +44,16 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
   }
 
   return (
-    <div className="flex flex-col min-h-screen">
-      <Header />
+    <div className="flex flex-col min-h-screen w-full overflow-x-hidden">
+      <div className="fixed top-0 left-0 right-0 w-full">
+        <Header />
+      </div>
       <div className="flex flex-1">
-        <Sidebar />
-        <main className="flex-1 p-6 bg-gray-100">
-          <div className="container mx-auto">{children}</div>
+        <div className="fixed top-[72px] left-0 bottom-0">
+          <Sidebar />
+        </div>
+        <main className="flex-1 p-6 bg-gray-100 pl-72 pt-[90px]">
+          <div className=" mx-auto">{children}</div>
         </main>
       </div>
     </div>

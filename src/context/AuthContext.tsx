@@ -40,7 +40,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   const hasRunInitialCheck = useRef(false);
 
   useEffect(() => {
-    console.log("Auth state:", authState);
+    // console.log("Auth state:", authState);
   }, [authState]);
 
   const checkAuth = async (suppressLoading = false): Promise<boolean> => {
@@ -51,7 +51,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
 
     try {
       const response = await authService.checkAuth();
-      console.log("Auth check response:", response);
+      // console.log("Auth check response:", response);
 
       setAuthState({
         isAuthenticated: response.success,

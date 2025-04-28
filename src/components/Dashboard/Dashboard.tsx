@@ -208,13 +208,13 @@ const Dashboard: React.FC = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <a
             href="/users"
-            className="bg-indigo-600 text-white px-4 py-3 rounded-md hover:bg-indigo-700 transition-colors text-center"
+            className="bg-gradient-to-r from-[#FD6A03] to-[#f90] text-white  px-4 py-3 rounded-md hover:bg-[#FD6A03] transition-colors text-center"
           >
             Manage Users
           </a>
           <a
             href="/logs"
-            className="bg-blue-600 text-white px-4 py-3 rounded-md hover:bg-blue-700 transition-colors text-center"
+            className="bg-gradient-to-r from-[#FD6A03] to-[#f90] text-white px-4 py-3 rounded-md hover:bg-[#FD6A03] transition-colors text-center"
           >
             View Sync Logs
           </a>

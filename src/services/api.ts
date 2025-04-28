@@ -23,6 +23,7 @@ export const api = {
     try {
       const response = await fetch(`${API_URL}/api/admin/list-users`);
       const data = await response.json();
+      console.log("users are", data)
       return data.users || [];
     } catch (error) {
       console.error("Error listing users:", error);

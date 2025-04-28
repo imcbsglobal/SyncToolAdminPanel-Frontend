@@ -8,11 +8,11 @@ const ProtectedRoute: React.FC = () => {
   const location = useLocation();
 
   // Log route protection status
-  console.log("ProtectedRoute check:", {
-    path: location.pathname,
-    isAuthenticated,
-    isLoading,
-  });
+  // console.log("ProtectedRoute check:", {
+  //   path: location.pathname,
+  //   isAuthenticated,
+  //   isLoading,
+  // });
 
   if (isLoading) {
     // Show loading indicator if auth status is still being checked
