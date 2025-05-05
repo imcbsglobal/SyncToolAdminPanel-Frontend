@@ -93,14 +93,24 @@ const UserList: React.FC = () => {
 
   return (
     <div className="bg-white rounded-lg shadow-md p-6 overflow-x-hidden">
-      <div className="flex justify-between items-center mb-6">
+      <div className="flex justify-between items-center mb-6 flex-wrap gap-4">
         <h2 className="text-2xl font-bold text-gray-800">User Management</h2>
-        <button
-          onClick={handleAddUser}
-          className="bg-[#f90] font-medium text-white px-4 py-2 rounded-md hover:bg-indigo-700 transition-colors"
-        >
-          Add New User
-        </button>
+
+        <div className="flex items-center gap-4">
+          <a
+            href="/downloads/imc-sync.zip"
+            download
+            className="text-white hover:text-blue-800 text-sm px-6 py-2 rounded-lg bg-[#f90] hover:bg-indigo-700 transition-colors"
+          >
+            Download ZIP
+          </a>
+          <button
+            onClick={handleAddUser}
+            className="bg-[#f90] font-medium text-white px-4 py-2 rounded-md hover:bg-indigo-700 transition-colors"
+          >
+            Add New User
+          </button>
+        </div>
       </div>
 
       {error && (
