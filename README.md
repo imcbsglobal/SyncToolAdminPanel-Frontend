@@ -1,54 +1,145 @@
-# React + TypeScript + Vite
+# Database Synchronization Tool - Administration Panel
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A web-based admin interface for managing database synchronization clients built with React, TypeScript, and Vite.
 
-Currently, two official plugins are available:
+## 🌟 Overview
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+This application serves as an administrative panel for a database synchronization system designed to help manage client configurations for synchronizing SQL Anywhere databases with a central server. The admin panel allows system administrators to:
 
-## Expanding the ESLint configuration
+- View all registered sync clients
+- Add new client configurations
+- Edit existing client settings
+- Generate and download client configuration files
+- Generate Windows batch files for client-side use
+- Remove client configurations
+- View synchronization logs
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## 🔧 Technology Stack
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+- **Frontend**:
+
+  - React (with Hooks)
+  - TypeScript
+  - Tailwind CSS for styling
+  - Vite as build tool
+
+- **Backend** (API integration):
+  - RESTful API integration with the sync service backend
+  - Environment-based configuration
+
+## 📋 Features
+
+- **User Management**:
+
+  - Create, read, update, and delete client configurations
+  - Securely manage database credentials
+  - Store client contact information
+
+- **Configuration Management**:
+
+  - Generate client-specific configuration files
+  - Create Windows batch files for easy client deployment
+  - Display configuration details in a user-friendly format
+
+- **Monitoring**:
+  - View synchronization logs
+  - Track client activity
+
+## 🚀 Getting Started
+
+### Prerequisites
+
+- Node.js (v16 or later recommended)
+- npm or yarn package manager
+- Access to the backend synchronization service
+
+### Installation
+
+1. Clone the repository:
+
+   ```bash
+   git clone https://github.com/KRISHNAKUMARPS2002/Sync-Hub-Frontend.git
+   cd db-sync-admin
+   ```
+
+2. Install dependencies:
+
+   ```bash
+   npm install
+   # or
+   yarn install
+   ```
+
+3. Create an environment file:
+
+   ```bash
+   cp .env.example .env
+   ```
+
+4. Edit the `.env` file and set the appropriate API URL:
+
+   ```
+   VITE_API_URL=https://synctool.imcbs.com
+   ```
+
+5. Start the development server:
+   ```bash
+   npm run dev
+   # or
+   yarn dev
+   ```
+
+## 🔍 Project Structure
+
+```
+src/
+├── components/
+│   └── Users/
+│       ├── UserConfig.tsx    # Client configuration component
+│       ├── UserForm.tsx      # Form for adding/editing users
+│       └── UserList.tsx      # Table view of all clients
+├── interfaces/              # TypeScript interfaces
+├── services/
+│   └── api.ts               # API service for backend communication
+├── App.tsx                  # Main application component
+└── main.tsx                 # Application entry point
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## 🔄 Client Synchronization Flow
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+1. Admin creates a new client configuration through the admin panel
+2. System generates client ID and access token
+3. Admin downloads configuration JSON and batch file
+4. Files are sent to client for installation
+5. Client runs the batch file to start synchronization
+6. Synchronization logs are viewable in the admin panel
 
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
+## 📦 Deployment
+
+For production build:
+
+```bash
+npm run build
+# or
+yarn build
 ```
+
+This will generate optimized assets in the `dist/` directory that can be deployed to any static hosting service.
+
+## 🛠️ Environment Variables
+
+| Variable     | Description                    | Default                  |
+| ------------ | ------------------------------ | ------------------------ |
+| VITE_API_URL | URL of the backend API service | https://your-backend-url |
+
+## 📄 License
+
+[License information goes here]
+
+## 👥 Contributing
+
+[Contributing guidelines go here]
+
+## 📞 Support
+
+For support or questions, please contact [contact information]
