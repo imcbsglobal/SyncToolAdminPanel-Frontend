@@ -58,7 +58,7 @@ cd /d "%SCRIPT_DIR%"
 :: Check if we're using the packaged executable or Node.js script
 if exist "%SCRIPT_DIR%\\clientside-synctool.exe" (
     echo Running packaged sync tool...
-    "%SCRIPT_DIR%\\clientside-synctool.exe" --clientId=%CLIENT_ID%
+    "%SCRIPT_DIR%\\clientside-synctool.exe" --clientId=%CLIENT_ID% --no-prompt
 ) else if exist "%SCRIPT_DIR%\\src\\sync-client.js" (
     echo Checking for Node.js...
     where node >nul 2>nul
@@ -70,7 +70,7 @@ if exist "%SCRIPT_DIR%\\clientside-synctool.exe" (
     )
     
     echo Running Node.js sync tool...
-    node "%SCRIPT_DIR%\\src\\sync-client.js" --clientId=%CLIENT_ID%
+    node "%SCRIPT_DIR%\\src\\sync-client.js" --clientId=%CLIENT_ID% --no-prompt
 ) else (
     echo ERROR: Could not find sync-client executable or script.
     echo Current directory: %SCRIPT_DIR%
