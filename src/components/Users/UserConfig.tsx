@@ -40,6 +40,23 @@ const UserConfig: React.FC<UserConfigProps> = ({ clientId, onClose }) => {
     return `@echo off
 setlocal enabledelayedexpansion
 
+:: Set the client ID
+set CLIENT_ID=${config.clientId}
+
+:: Get directory where the bat file is located
+set "SCRIPT_DIR=%~dp0"
+cd /d "%SCRIPT_DIR%"
+
+:: Create a temporary VBS script to automate key pressing
+echo Set WshShell = WScript.CreateObject("WScript.Shell") > "%TEMP%\\auto_press_key.vbs"
+echo WScript.Sleep 500 >> "%TEMP%\\auto_press_key.vbs"
+echo WshShell.AppActivate "DATABASE SYNCHRONIZATION CLIENT TOOL" >> "%TEMP%\\auto_press_key.vbs"
+echo WScript.Sleep 100 >> "%TEMP%\\auto_press_key.vbs"
+echo WshShell.SendKeys "{ENTER}" >> "%TEMP%\\auto_press_key.vbs"
+
+:: Start the VBS script in the background to press ENTER when needed
+start /B wscript.exe "%TEMP%\\auto_press_key.vbs"
+
 echo ===============================================
 echo     DATABASE SYNCHRONIZATION CLIENT TOOL     
 echo ===============================================
@@ -48,17 +65,10 @@ echo SQL Anywhere database and the central server.
 echo -----------------------------------------------
 echo.
 
-:: Set the client ID
-set CLIENT_ID=${config.clientId}
-
-:: Get directory where the bat file is located
-set "SCRIPT_DIR=%~dp0"
-cd /d "%SCRIPT_DIR%"
-
 :: Check if we're using the packaged executable or Node.js script
 if exist "%SCRIPT_DIR%\\clientside-synctool.exe" (
     echo Running packaged sync tool...
-    "%SCRIPT_DIR%\\clientside-synctool.exe" --clientId=%CLIENT_ID% --no-prompt
+    "%SCRIPT_DIR%\\clientside-synctool.exe" --clientId=%CLIENT_ID%
 ) else if exist "%SCRIPT_DIR%\\src\\sync-client.js" (
     echo Checking for Node.js...
     where node >nul 2>nul
@@ -70,7 +80,7 @@ if exist "%SCRIPT_DIR%\\clientside-synctool.exe" (
     )
     
     echo Running Node.js sync tool...
-    node "%SCRIPT_DIR%\\src\\sync-client.js" --clientId=%CLIENT_ID% --no-prompt
+    node "%SCRIPT_DIR%\\src\\sync-client.js" --clientId=%CLIENT_ID%
 ) else (
     echo ERROR: Could not find sync-client executable or script.
     echo Current directory: %SCRIPT_DIR%
@@ -85,15 +95,15 @@ if exist "%SCRIPT_DIR%\\clientside-synctool.exe" (
     exit /b 1
 )
 
+:: Clean up temporary files
+del "%TEMP%\\auto_press_key.vbs" >nul 2>&1
+
 if %ERRORLEVEL% NEQ 0 (
     echo.
     echo Sync failed with error code %ERRORLEVEL%
     pause
     exit /b %ERRORLEVEL%
-)
-
-echo.
-echo Sync completed successfully!`;
+)`;
   };
 
   const handleDownloadConfig = () => {
