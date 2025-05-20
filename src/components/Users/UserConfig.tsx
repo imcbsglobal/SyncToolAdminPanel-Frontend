@@ -93,8 +93,7 @@ if %ERRORLEVEL% NEQ 0 (
 )
 
 echo.
-echo Sync completed successfully!
-pause`;
+echo Sync completed successfully!`;
   };
 
   const handleDownloadConfig = () => {
